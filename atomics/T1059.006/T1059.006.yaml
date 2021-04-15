@@ -1,0 +1,59 @@
+attack_technique: T1059.006
+display_name: 'Command and Scripting Interpreter: Python'
+atomic_tests:
+  - name: Execute System Commands with Python (Linux)
+    description: |
+      Execute shell commands on Linux using Python
+    supported_platforms:
+      - linux
+    input_arguments:
+      command_to_run:
+        description: Linux shell command to run
+        type: String
+        default: /usr/bin/whoami
+    dependency_executor_name: bash
+    dependencies:
+      - description: |
+          Requires Python
+        prereq_command: |
+          which_python=`which python`; $which_python -V
+        get_prereq_command: |
+    executor:
+      command: |
+        $which_python -c 'from os import system; system("#{command_to_run}")'
+      name: bash
+  - name: Execute System Commands with Python (macOS)
+    description: |
+      Execute shell commands on MacOS using Python
+    supported_platforms:
+      - macos
+    input_arguments:
+      command_to_run:
+        description: MacOS shell command to run
+        type: String
+        default: /usr/bin/whoami
+    dependency_executor_name: bash
+    dependencies:
+      - description: |
+          Requires Python
+        prereq_command: |
+          which_python=`which python`; $which_python -V
+        get_prereq_command: 
+    executor:
+      command: |
+        $which_python -c 'from os import system; system("#{command_to_run}")'
+      name: bash
+  - name: Execute System Commands with Python (Windows)
+    description: |
+      Execute shell commands on Windows using Python
+    supported_platforms:
+      - windows
+    input_arguments:
+      command_to_run:
+        description: Windows shell command command to run 
+        type: String
+        default: whoami
+    executor:
+      command: |
+        python -c "from os import system; system('#{command_to_run}')"
+      name: command_prompt
